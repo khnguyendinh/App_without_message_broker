@@ -1,0 +1,25 @@
+# Java / Maven
+**/target/
+*.class
+*.jar
+*.war
+
+# H2 Database
+data/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Node / Angular
+frontend-app/node_modules/
+frontend-app/.angular/
+frontend-app/dist/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log

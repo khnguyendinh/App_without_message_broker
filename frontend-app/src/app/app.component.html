@@ -1,0 +1,151 @@
+<div class="dashboard">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <h1>Hazelcast Message Monitor</h1>
+      </div>
+      <span class="subtitle">Sender → Receiver Communication Dashboard</span>
+    </div>
+    <div class="header-right">
+      <button class="btn btn-icon" [class.active]="autoRefresh" (click)="toggleAutoRefresh()" title="Auto Refresh">
+        <span>{{ autoRefresh ? '🔄' : '⏸️' }}</span>
+      </button>
+      <button class="btn btn-outline" (click)="refreshData()">
+        <span>🔃</span> Refresh Now
+      </button>
+    </div>
+  </header>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-card sender-status">
+      <div class="status-indicator online"></div>
+      <div class="status-info">
+        <span class="status-label">Sender App</span>
+        <span class="status-value">:8081</span>
+      </div>
+      <div class="status-metric" *ngIf="senderStatus">
+        <span class="metric-value">{{ senderStatus.mapSize }}</span>
+        <span class="metric-label">Map Size</span>
+      </div>
+    </div>
+    
+    <div class="status-arrow">
+      <span>→ Hazelcast →</span>
+    </div>
+    
+    <div class="status-card receiver-status">
+      <div class="status-indicator online"></div>
+      <div class="status-info">
+        <span class="status-label">Receiver App</span>
+        <span class="status-value">:8082</span>
+      </div>
+      <div class="status-metrics" *ngIf="receiverStatus">
+        <div class="mini-metric">
+          <span class="mini-value processed">{{ receiverStatus.processed }}</span>
+          <span class="mini-label">Processed</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-value pending">{{ receiverStatus.pending }}</span>
+          <span class="mini-label">Pending</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-value failed">{{ receiverStatus.failed }}</span>
+          <span class="mini-label">Failed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Control Panel -->
+  <div class="control-panel">
+    <div class="control-group">
+      <label for="msgCount">Message Count</label>
+      <input id="msgCount" type="number" [(ngModel)]="messageCount" min="1" max="1000" class="input-field">
+    </div>
+    <div class="control-group">
+      <label for="msgPrefix">Prefix</label>
+      <input id="msgPrefix" type="text" [(ngModel)]="messagePrefix" class="input-field prefix-input">
+    </div>
+    <button class="btn btn-send" (click)="sendMessages()" [disabled]="sending">
+      <span *ngIf="!sending">🚀 Send Messages</span>
+      <span *ngIf="sending" class="spinner-text">
+        <span class="spinner"></span> Sending...
+      </span>
+    </button>
+  </div>
+
+  <!-- Log Panels -->
+  <div class="panels">
+    <!-- Sender Panel -->
+    <div class="panel">
+      <div class="panel-header sender-header">
+        <h2>📤 Sender Log</h2>
+        <span class="msg-count">{{ senderMessages.length }} messages</span>
+      </div>
+      <div class="panel-body">
+        <div class="message-list">
+          <div class="message-item" *ngFor="let msg of senderMessages; trackBy: trackById">
+            <div class="msg-row">
+              <span class="msg-content">{{ msg.content }}</span>
+              <span class="badge" [ngClass]="getStatusBadge(msg.status)">{{ msg.status }}</span>
+            </div>
+            <div class="msg-meta">
+              <span class="msg-id" title="{{ msg.id }}">{{ msg.id | slice:0:8 }}...</span>
+              <span class="msg-time">{{ formatDate(msg.createdAt) }}</span>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="senderMessages.length === 0">
+            <span class="empty-icon">📭</span>
+            <p>No messages sent yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receiver Panel -->
+    <div class="panel">
+      <div class="panel-header receiver-header">
+        <h2>📥 Receiver Log</h2>
+        <span class="msg-count">{{ receiverMessages.length }} messages</span>
+      </div>
+      <div class="panel-body">
+        <div class="message-list">
+          <div class="message-item" *ngFor="let msg of receiverMessages; trackBy: trackById">
+            <div class="msg-row">
+              <span class="msg-content">{{ msg.content }}</span>
+              <span class="badge" [ngClass]="getStatusBadge(msg.status)">{{ msg.status }}</span>
+            </div>
+            <div class="msg-meta">
+              <span class="msg-id" title="{{ msg.id }}">{{ msg.id | slice:0:8 }}...</span>
+              <span class="msg-time">
+                <span *ngIf="msg.processedAt">✅ {{ formatDate(msg.processedAt) }}</span>
+                <span *ngIf="!msg.processedAt">⏳ {{ formatDate(msg.createdAt) }}</span>
+              </span>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="receiverMessages.length === 0">
+            <span class="empty-icon">📭</span>
+            <p>No messages received yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Log -->
+  <div class="activity-panel">
+    <div class="panel-header activity-header">
+      <h2>📋 Activity Log</h2>
+      <button class="btn btn-sm btn-outline" (click)="clearLogs()">Clear</button>
+    </div>
+    <div class="activity-body">
+      <div class="log-entry" *ngFor="let log of activityLogs">{{ log }}</div>
+      <div class="empty-state small" *ngIf="activityLogs.length === 0">
+        <p>No activity yet</p>
+      </div>
+    </div>
+  </div>
+</div>
