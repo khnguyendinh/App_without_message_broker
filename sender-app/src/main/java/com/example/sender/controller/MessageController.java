@@ -48,6 +48,17 @@ public class MessageController {
         return ResponseEntity.ok(messages);
     }
 
+    @DeleteMapping("/clear")
+    public ResponseEntity<Map<String, Object>> clearAll() {
+        long count = repository.count();
+        senderService.clearMap();
+        repository.deleteAll();
+        log.info("Cleared all messages: {} deleted", count);
+        java.util.HashMap<String, Object> result = new java.util.HashMap<>();
+        result.put("cleared", count);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/status")
     public ResponseEntity<Map<String, Object>> getStatus() {
         java.util.HashMap<String, Object> status = new java.util.HashMap<>();

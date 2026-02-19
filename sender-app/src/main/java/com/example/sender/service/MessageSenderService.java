@@ -39,4 +39,9 @@ public class MessageSenderService {
     public int getMapSize() {
         return messageMap.size();
     }
+
+    public void clearMap() {
+        messageMap.clear();
+        log.info("Hazelcast map cleared");
+    }
 }

@@ -112,6 +112,25 @@ export class AppComponent implements OnInit, OnDestroy {
     this.activityLogs = [];
   }
 
+  clearMessages(): void {
+    this.addLog('🗑️ Clearing all messages...');
+    this.api.clearSenderMessages().subscribe({
+      next: () => { },
+      error: () => { }
+    });
+    this.api.clearReceiverMessages().subscribe({
+      next: () => {
+        this.senderMessages = [];
+        this.receiverMessages = [];
+        this.addLog('✅ All messages cleared');
+        this.refreshData();
+      },
+      error: () => {
+        this.addLog('❌ Failed to clear messages');
+      }
+    });
+  }
+
   getStatusBadge(status: string): string {
     switch (status) {
       case 'PENDING': return 'badge-pending';

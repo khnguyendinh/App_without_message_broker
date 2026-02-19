@@ -60,4 +60,12 @@ export class ApiService {
   getReceiverStatus(): Observable<ReceiverStatus> {
     return this.http.get<ReceiverStatus>(`${this.receiverUrl}/status`);
   }
+
+  clearSenderMessages(): Observable<any> {
+    return this.http.delete(`${this.senderUrl}/clear`);
+  }
+
+  clearReceiverMessages(): Observable<any> {
+    return this.http.delete(`${this.receiverUrl}/clear`);
+  }
 }
