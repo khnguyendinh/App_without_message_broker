@@ -13,7 +13,7 @@ export interface SharedMessage {
 
 export interface SendBatchResponse {
   sent: number;
-  mapSize: number;
+  total: number;
 }
 
 export interface ReceiverStatus {
@@ -26,7 +26,7 @@ export interface ReceiverStatus {
 
 export interface SenderStatus {
   app: string;
-  mapSize: number;
+  total: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -34,7 +34,7 @@ export class ApiService {
   private senderUrl = 'http://localhost:8081/api/messages';
   private receiverUrl = 'http://localhost:8082/api/messages';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Sender APIs
   sendBatch(count: number, prefix: string): Observable<SendBatchResponse> {

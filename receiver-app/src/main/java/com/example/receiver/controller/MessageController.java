@@ -1,6 +1,6 @@
 package com.example.receiver.controller;
 
-import com.example.receiver.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.example.receiver.repository.MessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.api.sendBatch(this.messageCount, this.messagePrefix).subscribe({
       next: (res) => {
-        this.addLog(`✅ Sent ${res.sent} messages successfully. Map size: ${res.mapSize}`);
+        this.addLog(`✅ Sent ${res.sent} messages successfully. Total: ${res.total}`);
         this.sending = false;
         this.refreshData();
       },

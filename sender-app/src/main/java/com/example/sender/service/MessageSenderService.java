@@ -1,6 +1,6 @@
 package com.example.sender.service;
 
-import com.example.sender.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class MessageSenderService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        messageMap.put(id, message);
+        messageMap.set(id, message);
 
         log.info("Message sent: id={}, content='{}'", id, content);
         return message;

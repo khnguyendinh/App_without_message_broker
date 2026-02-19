@@ -1,6 +1,6 @@
 package com.example.receiver.listener;
 
-import com.example.receiver.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.example.receiver.service.MessageProcessorService;
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.HazelcastInstance;

@@ -1,6 +1,6 @@
 package com.example.sender.store;
 
-import com.example.sender.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.example.sender.repository.MessageRepository;
 import com.hazelcast.map.MapLoaderLifecycleSupport;
 import com.hazelcast.map.MapStore;

@@ -1,6 +1,6 @@
 package com.example.sender.repository;
 
-import com.example.sender.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

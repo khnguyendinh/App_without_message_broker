@@ -27,15 +27,15 @@
         <span class="status-value">:8081</span>
       </div>
       <div class="status-metric" *ngIf="senderStatus">
-        <span class="metric-value">{{ senderStatus.mapSize }}</span>
+        <span class="metric-value">{{ senderStatus.total }}</span>
         <span class="metric-label">Map Size</span>
       </div>
     </div>
-    
+
     <div class="status-arrow">
       <span>→ Hazelcast →</span>
     </div>
-    
+
     <div class="status-card receiver-status">
       <div class="status-indicator online"></div>
       <div class="status-info">

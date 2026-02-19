@@ -1,4 +1,4 @@
-package com.example.sender.model;
+package com.example.common.model;
 
 import jakarta.persistence.*;
 import lombok.*;

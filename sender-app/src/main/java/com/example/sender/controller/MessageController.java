@@ -1,6 +1,6 @@
 package com.example.sender.controller;
 
-import com.example.sender.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.example.sender.repository.MessageRepository;
 import com.example.sender.service.MessageSenderService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +36,10 @@ public class MessageController {
         for (int i = 1; i <= count; i++) {
             senderService.sendMessage(prefix + " #" + i);
         }
-        return ResponseEntity.ok(Map.of(
-                "sent", count,
-                "mapSize", senderService.getMapSize()));
+        java.util.HashMap<String, Object> result = new java.util.HashMap<>();
+        result.put("sent", count);
+        result.put("total", repository.count());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/all")
@@ -49,8 +50,9 @@ public class MessageController {
 
     @GetMapping("/status")
     public ResponseEntity<Map<String, Object>> getStatus() {
-        return ResponseEntity.ok(Map.of(
-                "app", "sender-app",
-                "mapSize", senderService.getMapSize()));
+        java.util.HashMap<String, Object> status = new java.util.HashMap<>();
+        status.put("app", "sender-app");
+        status.put("total", repository.count());
+        return ResponseEntity.ok(status);
     }
 }

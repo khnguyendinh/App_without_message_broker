@@ -1,6 +1,6 @@
 package com.example.receiver.service;
 
-import com.example.receiver.model.SharedMessage;
+import com.example.common.model.SharedMessage;
 import com.example.receiver.repository.MessageRepository;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
@@ -60,14 +60,14 @@ public class MessageProcessorService {
             message.setProcessedAt(LocalDateTime.now());
 
             // Update in Hazelcast (MapStore auto-syncs to DB)
-            messageMap.put(message.getId(), message);
+            messageMap.set(message.getId(), message);
 
             log.info("Message processed: id={}", message.getId());
 
         } catch (Exception e) {
             log.error("Failed to process message: id={}", message.getId(), e);
             message.setStatus("FAILED");
-            messageMap.put(message.getId(), message);
+            messageMap.set(message.getId(), message);
         }
     }
 }
